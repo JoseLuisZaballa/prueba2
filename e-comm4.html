@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Apparel Ecommerce Website</title>
+
+    <style>
+		.header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 80px;
+			background-color: #333333;
+			color: #fff;
+			padding-top: 5px;
+			padding-left: 40px;
+			box-sizing: border-box;
+			font-family: Arial, sans-serif;
+			font-size: 28px;
+			font-weight: bold;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		  }
+
+		  .header-left {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	
+		.apparel-ecommerce {
+			font-size: 28px;
+		}
+	
+		.soft-breathable {
+			font-size: 18px;
+		}
+	
+		.header-right {
+			display: flex;
+			align-items: center;
+			font-size: 18px;
+			padding-right: 40px;
+		}
+		  
+		  .header a {
+			color: #fff;
+			text-decoration: none;
+			margin-right: 20px;
+		  }
+		  
+		  .header ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			justify-content: flex-end;
+		  }
+		  
+		  .header li {
+			margin: 0 10px;
+		  }
+		  
+		  .header img {
+			display: block;
+			width: 60px;
+			height: auto;
+		  }
+
+		  body {
+			padding-top: 100px; 
+		  }
+
+        /* Define styles for the cart container */
+        #cart-container {
+          position: fixed;
+          right: 0;
+		  top:80px;
+          width: 300px;
+          height: 100%;
+          background-color: #eee;
+          padding: 10px;
+          box-sizing: border-box;
+          overflow-y: scroll;
+		  font-family: Arial, sans-serif;
+        }
+
+        /* Define styles for the carousel container */
+        #carousel-container {
+          width: 300px;
+          height: 100%;
+        }
+
+        /* Define styles for the cart item */
+        .cart-item {
+		  top: 80px;
+          margin-bottom: 15px;
+          padding: 5px;
+          background-color: #fff;
+          box-shadow: 0 0 2px #ccc;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-weight: bold;
+			font-family: Arial, sans-serif;
+        }
+
+		#product-cards {
+			max-width: 960px; /* Set the maximum width of the container */
+			margin: 0 auto; /* Center the container horizontally */
+			display: flex;
+			flex-wrap: wrap;
+		}
+		  
+		.apparel-category {
+			width: 22%; /* Set the width of each card */
+			margin: 10px; /* Add some margin around each card */
+			flex-shrink: 0; /* Prevent cards from shrinking and overlapping */
+		}
+
+		.card {
+			height: 450px; /* Set a fixed height for the cards */
+			margin-right: 10px;
+        	margin-bottom: 10px;
+        	width: 100%;
+			border: 1px solid black;
+  			border-radius: 5px;
+			padding: 10px;
+		}
+		
+		.card-title {
+			font-size: 1.2em;
+			font-family: Arial, sans-serif;
+		}
+		
+		.card-text {
+			font-size: 0.8em;
+			font-family: Arial, sans-serif;
+		}
+
+		button {
+			background-color: #333333;
+			border: none;
+			color: white;
+			padding: 10px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 5px;
+		  }
+		  
+		  button:hover {
+			background-color: #A9A9A9;
+		  }
+		
+		.card-img-top {
+			height: 200px;
+			object-fit: cover; /* Make the image cover the entire card */
+		}
+
+		.filters {
+			position: fixed;
+			top: 80px;
+			left: 0;
+			width: 200px;
+			height: 100%;
+			background-color: #F7F7F7;
+			font-family: Arial, sans-serif;
+		  }
+		  
+		  .nav-item {
+			list-style: none;
+			margin: 5px 0;
+		  }
+		  
+		  .nav-filter {
+			display: block;
+			padding: 10px 15px;
+			color: #333;
+			text-decoration: none;
+			transition: background-color 0.2s ease-in-out;
+		  }
+		  
+		  .nav-filter:hover {
+			background-color: #EEE;
+		  } 
+ 
+    </style>
+
+</head>
+    <!-- Header -->
+	<nav class="header">
+		<div class="header-left">
+			<div class="apparel-ecommerce">Apparel Ecommerce</div>
+			<div class="soft-breathable">Soft and breathable</div>
+		</div>
+		<div class="header-right">
+			<a class="nav-link" href="#">Sign In</a>
+			<a class="cart-image" href="#" data-toggle="modal" data-target="#cartModal"><img src="cart.png" alt="Cart" width="60"></a>
+		</div>
+	</nav>
+
+    <!-- Filters -->
+    <nav class="filters">
+        <ul class="filters">
+            <li class="nav-item">
+                <a class="nav-filter" href="#" onclick="filterApparel('all') ">All</a>
+            </li>  
+			<li class="nav-item">
+                <a class="nav-filter" href="#" onclick="filterApparel('body_suit') ">Body Suits</a>
+            </li>
+			<li class="nav-item">
+                <a class="nav-filter" href="#" onclick="filterApparel('bra') ">Bras</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-filter" href="#" onclick="filterApparel('jeans')">Jeans</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-filter" href="#" onclick="filterApparel('shirt') ">Shirts</a>
+            </li>           
+			<li class="nav-item">
+                <a class="nav-filter" href="#" onclick="filterApparel('sneakers') ">Sneakers</a>
+            </li>
+        </ul>
+    </nav>
+
+      
+    <!-- Cart container that is initially hidden -->
+    <div id="cart-container" class="cart-container" style="display: none;">
+        <h2>Your cart is empty</h2>
+        <div id="cart-items"></div>
+        <div id="cart-total-container" class="cart-total" style="display: none;">
+            <div>Total: <span id="cart-total-price">$0.00</span></div>
+            <button onclick="buyNow()">Buy Now</button>
+        </div>
+        <div id="cart-empty-message" style="display: none;">Your cart is empty</div>
+    </div>
+
+	<script type="text/javascript">
+		// Array to store product data
+		var products = [
+			{
+				name: "Jeans",
+				class: "jeans",
+				colors: ["Classic Blue"],
+				sizes: ["38", "40", "42", "44"],
+				price: 49.99,
+				description: "Comfortable and stylish jeans.",
+				image: "jeans.jpg",
+				inventory: {
+					"Classic Blue-38": 10,
+					"Classic Blue-40": 10,
+					"Classic Blue-42": 10,
+					"Classic Blue-44": 10
+				}
+			},
+			{
+				name: "Shirt long-sleeve",
+				class: "shirt",
+				colors: ["Blue", "Green"],
+				sizes: ["Small", "Medium", "Large", "XLarge"],
+				price: 14.99,
+				description: "Soft and breathable shirt.",
+				image: "shirt-blue.jpeg",
+				inventory: {
+					"Blue-Small": 10,
+					"Blue-Medium": 10,
+					"Blue-Large": 10,
+					"Blue-XLarge": 10,
+					"Green-Small": 10,
+					"Green-Medium": 10,
+					"Green-Large": 10,
+					"Green-XLarge": 10,
+				}
+			},
+            {
+				name: "Sport Bra",
+				class: "bra",
+				colors: ["Gray", "Black"],
+				sizes: ["Small", "Medium", "Large", "XLarge"],
+				price: 29.99,
+				description: "Soft and breathable bra.",
+				image: "bra.jpg",
+				inventory: {
+					"Gray-Small": 10,
+					"Gray-Medium": 10,
+					"Gray-Large": 10,
+					"Gray-XLarge": 10,
+					"Black-Small": 10,
+					"Black-Medium": 10,
+					"Black-Large": 10,
+					"Black-XLarge": 10,
+				}
+			},
+            {
+				name: "5pk Body Suits",
+				class: "body_suit",
+				colors: ["White"],
+				sizes: ["0M", "3M", "6M", "12M"],
+				price: 44.99,
+				description: "Soft and breathable body suits.",
+				image: "baby_bodysuit.jpeg",
+				inventory: {
+					"White-0M": 10,
+					"White-3M": 10,
+					"White-6M": 10,
+					"White-12M": 10,
+				}
+			},
+            {
+				name: "Shirt short-sleeve",
+				class: "shirt",
+				colors: ["Black", "White"],
+				sizes: ["Small", "Medium", "Large", "XLarge"],
+				price: 12.99,
+				description: "Soft and breathable shirt.",
+				image: "shirt_2.jpg",
+				inventory: {
+					"Black-Small": 10,
+					"Black-Medium": 10,
+					"Black-Large": 10,
+					"Black-XLarge": 10,
+					"White-Small": 10,
+					"White-Medium": 10,
+					"White-Large": 10,
+					"White-XLarge": 10,
+				}
+			},
+			{
+				name: "Body long-sleeve",
+				class: "body_suit",
+				colors: ["Blue", "Pink"],
+				sizes: ["0M", "3M", "6M", "12M"],
+				price: 9.99,
+				description: "Ultra comfort baby suit.",
+				image: "baby_bodysuit_2.jpg",
+				inventory: {
+					"Blue-0M": 10,
+					"Blue-3M": 10,
+					"Blue-6M": 10,
+					"Blue-12M": 10,
+					"Pink-0M": 10,
+					"Pink-3M": 10,
+					"Pink-6M": 10,
+					"Pink-12M": 10,
+				}
+			},
+			{
+				name: "Fashion Jeans",
+				class: "jeans",
+				colors: ["Blue", "Black"],
+				sizes: ["40", "42"],
+				price: 99.99,
+				description: "Chic jeans.",
+				image: "jeans_2.jpg",
+				inventory: {
+					"Blue-40": 10,
+					"Blue-42": 10,
+					"Black-40": 10,
+					"Black-42": 10
+				}
+			},
+            {
+				name: "Sneakers",
+				class: "sneakers",
+				colors: ["Black", "Blue"],
+				sizes: ["6", "7", "8", "9", "10"],
+				price: 74.99,
+				description: "Soft and breathable sneakers.",
+				image: "sneakers.jpg",
+				inventory: {
+					"Black-6": 10,
+					"Black-7": 10,
+					"Black-8": 10,
+					"Black-9": 10,
+					"Black-10": 10,
+					"Blue-6": 10,
+					"Blue-7": 10,
+					"Blue-8": 10,
+					"Blue-9": 10,
+					"Blue-10": 10
+				}
+			},
+            {
+				name: "3pk Body suits",
+				class: "body_suit",
+				colors: ["Unique"],
+				sizes: ["0M", "3M", "6M", "12M"],
+				price: 29.99,
+				description: "Roar dinosaurs.",
+				image: "baby_bodysuit_3.jpg",
+				inventory: {
+					"Unique-0M": 10,
+					"Unique-3M": 10,
+					"Unique-6M": 10,
+					"Unique-12M": 10,
+				}
+			},
+			{
+				name: "Heather Sneakers",
+				class: "sneakers",
+				colors: ["Gray", "Blue"],
+				sizes: ["6", "7", "8", "9", "10"],
+				price: 59.99,
+				description: "Comfortable sneakers.",
+				image: "sneakers_2.jpg",
+				inventory: {
+					"Gray-6": 10,
+					"Gray-7": 10,
+					"Gray-8": 10,
+					"Gray-9": 10,
+					"Gray-10": 10,
+					"Blue-6": 10,
+					"Blue-7": 10,
+					"Blue-8": 10,
+					"Blue-9": 10,
+					"Blue-10": 10
+				}
+			},
+			{
+				name: "Super Shirt",
+				class: "shirt",
+				colors: ["Unique"],
+				sizes: ["Small", "Medium", "Large", "XLarge"],
+				price: 24.99,
+				description: "Cape is sold separately.",
+				image: "super_shirt.jpg",
+				inventory: {
+					"Unique-Small": 10,
+					"Unique-Medium": 10,
+					"Unique-Large": 10,
+					"Unique-XLarge": 10
+				}
+			}
+		];
+		
+		// Function to create a product card element
+		function createProductCard(product) {
+			// Create the HTML elements
+			var card = document.createElement("div");
+			card.classList.add("col-md-2", "apparel-category", product.class.toLowerCase());
+		
+			var innerCard = document.createElement("div");
+			innerCard.classList.add("card");
+			innerCard.style.width = "12rem";
+		
+			var img = document.createElement("img");
+			img.src = product.image;
+			img.classList.add("card-img-top");
+			img.alt = product.name;
+		
+			var cardBody = document.createElement("div");
+			cardBody.classList.add("card-body");
+		
+			var title = document.createElement("h5");
+			title.classList.add("card-title");
+			title.textContent = product.name;
+		
+			var description = document.createElement("p");
+			description.classList.add("card-text");
+			description.textContent = product.description;
+
+			var colorSelect = document.createElement("select");
+			colorSelect.id = product.name.toLowerCase() + "-color";
+			for (var i = 0; i < product.colors.length; i++) {
+			  var option = document.createElement("option");
+			  option.value = product.colors[i];
+			  option.textContent = product.colors[i];
+			  colorSelect.appendChild(option);
+			}
+
+			var sizeSelect = document.createElement("select");
+			sizeSelect.id = product.name.toLowerCase() + "-size";
+			for (var i = 0; i < product.sizes.length; i++) {
+			  var option = document.createElement("option");
+			  option.value = product.sizes[i];
+			  option.textContent = product.sizes[i];
+			  sizeSelect.appendChild(option);
+			}
+		
+			var price = document.createElement("p");
+			price.classList.add("card-text");
+			price.textContent = "$" + product.price.toFixed(2);
+		
+			var button = document.createElement("button");
+			button.textContent = "Add to Cart";
+			button.onclick = function() {
+			  var color = document.getElementById(product.name.toLowerCase() + "-color").value;
+			  var size = document.getElementById(product.name.toLowerCase() + "-size").value;
+			  addToCart(products.indexOf(product), color, size);
+			};
+		
+			// Append the child elements to the card body
+			cardBody.appendChild(title);
+			cardBody.appendChild(description);
+			cardBody.appendChild(colorSelect);
+			cardBody.appendChild(sizeSelect);
+			cardBody.appendChild(price);
+			cardBody.appendChild(button);
+		
+			// Append the card body to the inner card
+			innerCard.appendChild(img);
+			innerCard.appendChild(cardBody);
+		
+			// Append the inner card to the card
+			card.appendChild(innerCard);
+		
+			// Append the card to the parent container element
+			var parentContainer = document.getElementById("product-cards");
+			parentContainer.appendChild(card);
+		
+			return card;
+		}
+
+		// Array to store items in cart
+		var cart = [];
+
+		// Function to add item to cart
+		function addToCart(productIndex, color, size) {
+			// Get selected product
+			var product = products[productIndex];
+
+			// Check if item is already in cart
+			var cartIndex = -1;
+			for (var i = 0; i < cart.length; i++) {
+				if (cart[i].productIndex == productIndex && cart[i].color == color && cart[i].size == size) {
+					cartIndex = i;
+					break;
+				}
+			}
+
+			// If item is already in cart, increase quantity
+			if (cartIndex >= 0) {
+				cart[cartIndex].quantity++;
+			} else {
+				// Otherwise, add new item to cart
+				cart.push({
+					productIndex: productIndex,
+					color: color,
+					size: size,
+					quantity: 1
+				});
+			}
+
+			// Update inventory
+			product.inventory[color + "-" + size]--;
+
+			// Update cart menu
+			updateCartMenu();
+		}
+
+        // Function to increment the quantity of an item in the cart
+        function incrementCartItem(index) {
+            cart[index].quantity++;
+            updateCartMenu();   
+        }
+        
+        // Function to decrement the quantity of an item in the cart
+        function decrementCartItem(index) {
+            cart[index].quantity--;
+            if (cart[index].quantity <= 0) {
+            removeFromCart(index);
+            } else {
+            updateCartMenu();
+            }
+        }
+        
+        // Function to update cart menu
+        function updateCartMenu() {
+            // Get cart menu element
+            var cartMenu = document.getElementById("cart-container");
+
+            // Clear cart menu
+            cartMenu.innerHTML = "";
+
+            // Calculate total price
+            var totalPrice = 0;
+
+            // Check if cart is empty
+            if (cart.length === 0) {
+                // Display "Your cart is empty" message
+                cartMenu.innerHTML = "<h2>Your cart is empty</h2>";
+            } else {
+                // Add items to cart menu
+                for (var i = 0; i < cart.length; i++) {
+                    // Get product data
+                    var product = products[cart[i].productIndex];
+
+                    // Calculate item price
+                    var itemPrice = product.price * cart[i].quantity;
+
+                    // Add item to cart menu
+                    cartMenu.innerHTML += "<div class='cart-item'><img src='" + product.image + "' width='50' height='50'>" +
+                        "<div>" + product.name + " - " + cart[i].color + " - " + cart[i].size + "</div>" +
+                        "<div><button onclick='decrementCartItem(" + i + ")'>-</button>" + 
+                        "Quantity: " + cart[i].quantity + "<button onclick='incrementCartItem(" + i + ")'>+</button>" +
+                        " - Price: $" + itemPrice.toFixed(2) + "</div>" +
+                        "<div><button onclick='removeFromCart(" + i + ")'>Remove</button></div>";
+
+                    // Add item price to total price
+                    totalPrice += itemPrice;
+                }
+
+                // Add total price and "Buy Now" button to cart menu
+                cartMenu.innerHTML += "<div class='cart-total'>" +
+                    "<div>Total: <span id='cart-total-price'>$" + totalPrice.toFixed(2) + "</span></div>" +
+                    "<button onclick='buyNow()'>Buy Now</button>" +
+                    "</div>";
+            }
+
+            // Show cart menu
+            cartMenu.style.display = "block";
+        }
+
+          
+  
+
+        // Function to remove item from cart
+        function removeFromCart(index) {
+            // Get item from cart
+            var item = cart[index];
+
+            // Get product data
+            var product = products[item.productIndex];
+
+            // Increase inventory
+            product.inventory[item.color + "-" + item.size] += item.quantity;
+
+            // Remove item from cart
+            cart.splice(index, 1);
+
+            // Update cart menu
+            updateCartMenu();
+        }
+
+        // Get cart image element
+        var cartImage = document.querySelector(".cart-image img");
+
+        // Get cart container element
+        var cartContainer = document.getElementById("cart-container");
+
+        // Add click event listener to cart image
+        cartImage.addEventListener("click", function() {
+            // Toggle cart container display property
+            if (cartContainer.style.display === "block") {
+                cartContainer.style.display = "none";
+            } else {
+                cartContainer.style.display = "block";
+            }
+        });
+
+        function filterApparel(category) {
+            var apparelItems = document.getElementsByClassName("apparel-category");
+            for (var i = 0; i < apparelItems.length; i++) {
+              if (category === 'all' || apparelItems[i].classList.contains(category)) {
+                apparelItems[i].style.display = "block";
+              } else {
+                apparelItems[i].style.display = "none";
+              }
+            }
+        }
+                 
+
+	</script>
+<body>
+	<div id="product-cards">
+		<div class="row">
+			<!-- Call the createProductCard function for each product -->
+			<script>
+			for (var i = 0; i < products.length; i++) {
+				createProductCard(products[i]);
+			}
+			</script>
+		</div>
+	</div>
+
+	<div id="cart-menu" style="display:none;"></div>
+</body>
+</html>
+
